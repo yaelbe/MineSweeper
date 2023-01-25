@@ -118,3 +118,7 @@ function renderLives(lives) {
     elLives.innerText += lives[i]
   }
 }
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min
+}

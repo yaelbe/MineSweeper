@@ -1,6 +1,6 @@
 'use strict'
 
-const BRGINNER = {
+const BEGINNER = {
   boardSize: 4,
   minesCount: 2,
 }
@@ -14,7 +14,7 @@ const EXPERT = {
 }
 
 var gBoard
-var gLevel = BRGINNER
+var gLevel = BEGINNER
 const gGame = {
   isOn: false,
   markedCount: 0,
@@ -39,7 +39,7 @@ function onInit() {
 
 function buildBoard() {
   var board = buildEmptyModel(gLevel.boardSize)
-  createMines(gLevel.minesCount, board)
+  createMines(gLevel, board)
   setMinesNegsCount(board)
   return board
 }
@@ -60,8 +60,11 @@ function onCellClicked(elCell, i, j) {
 function onCellMarked(elCell, i, j) {
   const currentCell = gBoard[i][j]
   currentCell.isMarked = !currentCell.isMarked
+
   if (currentCell.isMarked && currentCell.isMine) gGame.markedCount++
+
   renderCell({ i, j }, currentCell)
+
   checkGameOver()
 }
 
@@ -102,6 +105,11 @@ function expandShown(i, j, mat) {
       expandShown(currenPos.i, currenPos.j, mat)
     }
   }
+}
+
+function setLevel(level) {
+  gLevel = level
+  onInit()
 }
 
 function mouseDown(e, elCell, i, j) {

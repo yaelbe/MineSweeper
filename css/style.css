@@ -37,3 +37,9 @@ table {
 .lives {
   font-size: 22px;
 }
+
+.levels button {
+  margin: 6px;
+  padding: 6px;
+  border-radius: 6px;
+}
