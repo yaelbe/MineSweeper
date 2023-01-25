@@ -113,7 +113,7 @@ function makeLives(livesCount) {
 }
 
 function renderLives(lives) {
-  elLives.innerText = ''
+  elLives.innerText = ' '
   for (let i = 0; i < lives.length; i++) {
     elLives.innerText += lives[i]
   }

@@ -2,10 +2,11 @@
 
 const MINE = '💣'
 const CELL = 'cell'
-var gMines = []
+var gMines
 var gLives
 
 function createMines(level, board) {
+  gMines = []
   for (let i = 0; i < level.minesCount; i++) {
     const i = getRandomInt(0, level.boardSize)
     const j = getRandomInt(0, level.boardSize)
