@@ -63,11 +63,10 @@ function onInit() {
   generateHints(gHint.hintsAmount)
 
   clearInterval(gTimer)
+  gTimer = 0
 
   elSmileyBtn.innerText = '😃'
   elTime.innerText = '000'
-  const score = window.localStorage.getItem(gLevel.name)
-  elScore.innerText = score ? score : 0
 }
 
 function buildBoard() {
@@ -81,8 +80,8 @@ function onCellClicked(elCell, i, j) {
   const currentCell = gBoard[i][j]
   if (currentCell.isMarked) return
 
-  if (gGame.secPassed === 0) {
-    startStopper()
+  if (!gTimer) {
+    startTimer()
   }
 
   if (gHint.isOn) {
@@ -122,6 +121,7 @@ function onCellMarked(elCell, i, j) {
 
 function gameOver() {
   clearInterval(gTimer)
+  gTimer = 0
   gGame.isOn = false
   elSmileyBtn.innerText = '🤯'
   revealBoard(gBoard)
@@ -136,12 +136,16 @@ function checkGameOver() {
   const won = gGame.markedCount + gGame.shownCount === gLevel.boardSize ** 2
   if (won) {
     clearInterval(gTimer)
+    gTimer = 0
     console.log('You won🎉!')
     gGame.isOn = false
     elSmileyBtn.innerText = '😎'
-    var levelBestTime = window.localStorage.getItem(gLevel.name)
-    if ((levelBestTime && gGame.secPassed < levelBestTime) || !levelBestTime) {
+
+    var score = window.localStorage.getItem(gLevel.name)
+    var levelBestTime = score ? score : Infinity
+    if (gGame.secPassed < levelBestTime) {
       window.localStorage.setItem(gLevel.name, gGame.secPassed)
+      elScore.innerText = gGame.secPassed
     }
   }
 }
@@ -198,7 +202,7 @@ function handelMegaHintClicked(posStart, posEnd) {
   revealArea(neighborsPos, gBoard, gMegaHint, 2000)
 }
 
-function startStopper() {
+function startTimer() {
   gTimer = setInterval(() => {
     gGame.secPassed++
 
