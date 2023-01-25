@@ -45,6 +45,20 @@ function getNeighborsPosList(rowIdx, colIdx, mat, includeMines = false) {
   return neighborsPos
 }
 
+function getAreaPosList(posStart, posEnd, mat, includeMines = false) {
+  const neighborsPos = []
+  for (var i = posStart.i; i <= posEnd.i; i++) {
+    if (i < 0 || i >= mat.length) continue
+
+    for (var j = posStart.j; j <= posEnd.j; j++) {
+      if (j < 0 || j >= mat[i].length) continue
+      if (!includeMines && mat[i][j].isMine) continue
+      neighborsPos.push({ i, j })
+    }
+  }
+  return neighborsPos
+}
+
 function renderBoard(mat, selector) {
   var strHTML = '<table><tbody class="board">'
   for (var i = 0; i < mat.length; i++) {
@@ -76,6 +90,25 @@ function renderCell(pos, cell, cellView) {
     elCell.innerText = ''
   }
   elCell.innerText = cellContent
+}
+
+function revealArea(neighborsPos, mat, hint, interval = 1000) {
+  for (let i = 0; i < neighborsPos.length; i++) {
+    const pos = neighborsPos[i]
+    const cell = mat[pos.i][pos.j]
+    const elCell = document.querySelector(`.cell-${pos.i}-${pos.j}`)
+    elCell.classList.remove('cell')
+    elCell.innerText = cell.isMine ? '💣' : cell.minesAround > 0 ? cell.minesAround : ''
+  }
+  setTimeout(() => {
+    gGame.isOn = true
+    hint.isOn = false
+
+    for (let i = 0; i < neighborsPos.length; i++) {
+      const pos = neighborsPos[i]
+      renderCell(pos, mat[pos.i][pos.j])
+    }
+  }, interval)
 }
 
 function revealBoard(mat) {

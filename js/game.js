@@ -21,7 +21,18 @@ const gGame = {
   markedCount: 0,
   shownCount: 0,
   secPassed: 0,
-  hintIsOn: false,
+}
+const gHint = {
+  hintsAmount: 3,
+  isOn: false,
+  isEnable: true,
+  used: 0,
+}
+const gMegaHint = {
+  isEnable: true,
+  isOn: false,
+  posStart: null,
+  posEnd: null,
 }
 
 function onInit() {
@@ -30,12 +41,21 @@ function onInit() {
   gGame.shownCount = 0
   gGame.secPassed = 0
 
+  gHint.isEnable = true
+  gHint.isOn = false
+  gHint.used = 0
+
+  gMegaHint.isEnable = true
+  gMegaHint.isOn = false
+  gMegaHint.posStart = null
+  gMegaHint.posEnd = null
+
   gBoard = buildBoard()
   renderBoard(gBoard, '.board-container')
   gGame.isOn = true
 
   generateLives(3)
-  generateHints(3)
+  generateHints(gHint.hintsAmount)
 
   elSmileyBtn.innerText = '😃'
 }
@@ -50,27 +70,20 @@ function buildBoard() {
 function onCellClicked(elCell, i, j) {
   const currentCell = gBoard[i][j]
 
-  if (gGame.hintIsOn) {
-    gGame.isOn = false
-    const neighborsPos = getNeighborsPosList(i, j, gBoard, true)
-    for (let i = 0; i < neighborsPos.length; i++) {
-      const pos = neighborsPos[i]
-      const cell = gBoard[pos.i][pos.j]
-      const elCell = document.querySelector(`.cell-${pos.i}-${pos.j}`)
-      elCell.classList.remove('cell')
-      elCell.innerText = cell.isMine ? '💣' : cell.minesAround > 0 ? cell.minesAround : ''
-    }
-    setTimeout(() => {
-      gGame.isOn = true
-      gGame.hintIsOn = false
-
-      for (let i = 0; i < neighborsPos.length; i++) {
-        const pos = neighborsPos[i]
-        renderCell(pos, gBoard[pos.i][pos.j])
-      }
-    }, 1000)
+  if (gHint.isOn) {
+    handelHintClicked(i, j)
     return
   }
+  if (gMegaHint.isOn) {
+    if (!gMegaHint.posStart) {
+      gMegaHint.posStart = { i, j }
+    } else {
+      gMegaHint.posEnd = { i, j }
+      handelMegaHintClicked(gMegaHint.posStart, gMegaHint.posEnd)
+    }
+    return
+  }
+
   if (currentCell.isMine) {
     handelMineClicked(elCell, currentCell)
     return
@@ -137,13 +150,32 @@ function setLevel(level) {
 }
 
 function onHint(elHint) {
-  if (gGame.hintIsOn) return
+  if (gHint.isOn || gHint.used === gHint.hintsAmount) return
   if (elHint.classList.contains('available')) {
     elHint.classList.remove('available')
-    gGame.hintIsOn = true
+    gHint.isOn = true
+    gHint.used++
   }
 }
 
+function onMegaHint() {
+  if (gMegaHint.isEnable && !gHint.isOn) {
+    gMegaHint.isOn = true
+    gMegaHint.isEnable = false
+  }
+}
+
+function handelHintClicked(i, j) {
+  gGame.isOn = false
+  const neighborsPos = getNeighborsPosList(i, j, gBoard, true)
+  revealArea(neighborsPos, gBoard, gHint)
+}
+
+function handelMegaHintClicked(posStart, posEnd) {
+  gGame.isOn = false
+  const neighborsPos = getAreaPosList(posStart, posEnd, gBoard, true)
+  revealArea(neighborsPos, gBoard, gMegaHint, 2000)
+}
 function mouseDown(e, elCell, i, j) {
   if (!gGame.isOn) return
 
