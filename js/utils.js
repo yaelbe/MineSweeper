@@ -1,3 +1,5 @@
+const smileyBtn = document.querySelector('.btnSmiley')
+
 function buildEmptyModel(size) {
   const board = []
 

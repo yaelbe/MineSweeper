@@ -31,6 +31,8 @@ function onInit() {
   gBoard = buildBoard()
   renderBoard(gBoard, '.board-container')
   gGame.isOn = true
+
+  smileyBtn.innerText = '😃'
 }
 
 function buildBoard() {
@@ -53,6 +55,7 @@ function onCellClicked(elCell, i, j) {
 
   if (checkGameOver()) {
     console.log('You won🎉!')
+    smileyBtn.innerText = '😎'
   }
 }
 
@@ -65,8 +68,13 @@ function onCellMarked(elCell, i, j) {
 
 function gameOver() {
   gGame.isOn = false
+  smileyBtn.innerText = '🤯'
   revealBoard(gBoard)
   console.log('GameOver')
+}
+
+function newGame() {
+  onInit()
 }
 
 function checkGameOver() {
