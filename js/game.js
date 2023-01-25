@@ -18,18 +18,19 @@ var gLevel = BRGINNER
 const gGame = {
   isOn: false,
   markedCount: 0,
+  shownCount: 0,
   secPassed: 0,
 }
 
 function onInit() {
   gGame.isOn = true
   gGame.markedCount = 0
+  gGame.shownCount = 0
   gGame.secPassed = 0
 
   gBoard = buildBoard()
   renderBoard(gBoard, '.board-container')
   gGame.isOn = true
-  gGame.markedCount = gLevel.boardSize ** 2
 }
 
 function buildBoard() {
@@ -47,12 +48,18 @@ function onCellClicked(elCell, i, j) {
     gameOver()
     return
   }
+
   expandShown(i, j, gBoard)
+
+  if (checkGameOver()) {
+    console.log('You won🎉!')
+  }
 }
 
 function onCellMarked(elCell, i, j) {
   const currentCell = gBoard[i][j]
   currentCell.isMarked = !currentCell.isMarked
+  if (currentCell.isMarked && currentCell.isMine) gGame.markedCount++
   renderCell({ i, j }, currentCell)
 }
 
@@ -61,8 +68,9 @@ function gameOver() {
   revealBoard(gBoard)
   console.log('GameOver')
 }
+
 function checkGameOver() {
-  return markedCount === 0
+  return gGame.markedCount + gGame.shownCount == gLevel.boardSize ** 2
 }
 
 function expandShown(i, j, mat) {
@@ -71,6 +79,7 @@ function expandShown(i, j, mat) {
   if (currentCell.isMine || currentCell.isShown) return
 
   currentCell.isShown = true
+  gGame.shownCount++
 
   renderCell({ i, j }, currentCell)
 
