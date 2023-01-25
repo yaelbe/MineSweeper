@@ -1,4 +1,5 @@
-const smileyBtn = document.querySelector('.btnSmiley')
+const elSmileyBtn = document.querySelector('.btnSmiley')
+const elLives = document.querySelector('.lives')
 
 function buildEmptyModel(size) {
   const board = []
@@ -100,5 +101,20 @@ function revealBoard(mat) {
         }
       }
     }
+  }
+}
+
+function makeLives(livesCount) {
+  const lives = []
+  for (let i = 0; i < livesCount; i++) {
+    lives.push('🧡')
+  }
+  return lives
+}
+
+function renderLives(lives) {
+  elLives.innerText = ''
+  for (let i = 0; i < lives.length; i++) {
+    elLives.innerText += lives[i]
   }
 }

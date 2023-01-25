@@ -3,6 +3,7 @@
 const MINE = '💣'
 const CELL = 'cell'
 var gMines
+var gLives
 
 function createMines(count, board) {
   gMines = [
@@ -23,5 +24,19 @@ function setMinesNegsCount(board) {
       if (currentCell.type === MINE) continue
       board[i][j].minesAround = countNeighbors(i, j, board)
     }
+  }
+}
+
+function handelMineClicked(elCell, cell) {
+  if (gLives.length > 0) {
+    gLives.pop()
+    renderLives(gLives)
+    elCell.innerText = '💥'
+    setTimeout(() => {
+      elCell.innerText = ''
+    }, 500)
+  } else {
+    cell.isShown = true
+    gameOver()
   }
 }

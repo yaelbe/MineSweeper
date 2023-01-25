@@ -32,7 +32,9 @@ function onInit() {
   renderBoard(gBoard, '.board-container')
   gGame.isOn = true
 
-  smileyBtn.innerText = '😃'
+  gLives = makeLives(3)
+  renderLives(gLives)
+  elSmileyBtn.innerText = '😃'
 }
 
 function buildBoard() {
@@ -46,17 +48,13 @@ function onCellClicked(elCell, i, j) {
   const currentCell = gBoard[i][j]
 
   if (currentCell.isMine) {
-    currentCell.isShown = true
-    gameOver()
+    handelMineClicked(elCell, currentCell)
     return
   }
 
   expandShown(i, j, gBoard)
 
-  if (checkGameOver()) {
-    console.log('You won🎉!')
-    smileyBtn.innerText = '😎'
-  }
+  checkGameOver()
 }
 
 function onCellMarked(elCell, i, j) {
@@ -64,11 +62,12 @@ function onCellMarked(elCell, i, j) {
   currentCell.isMarked = !currentCell.isMarked
   if (currentCell.isMarked && currentCell.isMine) gGame.markedCount++
   renderCell({ i, j }, currentCell)
+  checkGameOver()
 }
 
 function gameOver() {
   gGame.isOn = false
-  smileyBtn.innerText = '🤯'
+  elSmileyBtn.innerText = '🤯'
   revealBoard(gBoard)
   console.log('GameOver')
 }
@@ -78,7 +77,12 @@ function newGame() {
 }
 
 function checkGameOver() {
-  return gGame.markedCount + gGame.shownCount == gLevel.boardSize ** 2
+  const won = gGame.markedCount + gGame.shownCount === gLevel.boardSize ** 2
+  if (won) {
+    console.log('You won🎉!')
+    gGame.isOn = false
+    elSmileyBtn.innerText = '😎'
+  }
 }
 
 function expandShown(i, j, mat) {
