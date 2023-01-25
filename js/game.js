@@ -13,6 +13,7 @@ const EXPERT = {
   minesCount: 32,
 }
 
+var gHints
 var gBoard
 var gLevel = BEGINNER
 const gGame = {
@@ -20,6 +21,7 @@ const gGame = {
   markedCount: 0,
   shownCount: 0,
   secPassed: 0,
+  hintIsOn: false,
 }
 
 function onInit() {
@@ -32,8 +34,9 @@ function onInit() {
   renderBoard(gBoard, '.board-container')
   gGame.isOn = true
 
-  gLives = makeLives(3)
-  renderLives(gLives)
+  generateLives(3)
+  generateHints(3)
+
   elSmileyBtn.innerText = '😃'
 }
 
@@ -47,6 +50,27 @@ function buildBoard() {
 function onCellClicked(elCell, i, j) {
   const currentCell = gBoard[i][j]
 
+  if (gGame.hintIsOn) {
+    gGame.isOn = false
+    const neighborsPos = getNeighborsPosList(i, j, gBoard, true)
+    for (let i = 0; i < neighborsPos.length; i++) {
+      const pos = neighborsPos[i]
+      const cell = gBoard[pos.i][pos.j]
+      const elCell = document.querySelector(`.cell-${pos.i}-${pos.j}`)
+      elCell.classList.remove('cell')
+      elCell.innerText = cell.isMine ? '💣' : cell.minesAround > 0 ? cell.minesAround : ''
+    }
+    setTimeout(() => {
+      gGame.isOn = true
+      gGame.hintIsOn = false
+
+      for (let i = 0; i < neighborsPos.length; i++) {
+        const pos = neighborsPos[i]
+        renderCell(pos, gBoard[pos.i][pos.j])
+      }
+    }, 1000)
+    return
+  }
   if (currentCell.isMine) {
     handelMineClicked(elCell, currentCell)
     return
@@ -110,6 +134,14 @@ function expandShown(i, j, mat) {
 function setLevel(level) {
   gLevel = level
   onInit()
+}
+
+function onHint(elHint) {
+  if (gGame.hintIsOn) return
+  if (elHint.classList.contains('available')) {
+    elHint.classList.remove('available')
+    gGame.hintIsOn = true
+  }
 }
 
 function mouseDown(e, elCell, i, j) {

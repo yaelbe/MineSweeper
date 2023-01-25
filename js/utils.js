@@ -1,5 +1,6 @@
 const elSmileyBtn = document.querySelector('.btnSmiley')
 const elLives = document.querySelector('.lives')
+const elHints = document.querySelector('.hints')
 
 function buildEmptyModel(size) {
   const board = []
@@ -29,7 +30,7 @@ function countNeighbors(rowIdx, colIdx, mat) {
   return neighborsCount
 }
 
-function getNeighborsPosList(rowIdx, colIdx, mat) {
+function getNeighborsPosList(rowIdx, colIdx, mat, includeMines = false) {
   const neighborsPos = []
   for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
     if (i < 0 || i >= mat.length) continue
@@ -37,7 +38,7 @@ function getNeighborsPosList(rowIdx, colIdx, mat) {
     for (var j = colIdx - 1; j <= colIdx + 1; j++) {
       if (i === rowIdx && j === colIdx) continue
       if (j < 0 || j >= mat[i].length) continue
-      if (mat[i][j].isMine) continue
+      if (!includeMines && mat[i][j].isMine) continue
       neighborsPos.push({ i, j })
     }
   }
@@ -70,6 +71,9 @@ function renderCell(pos, cell, cellView) {
   } else if (cell.isShown) {
     elCell.classList.remove('cell')
     cellContent = cell.minesAround > 0 ? cell.minesAround : cell.isMine ? '💥' : ''
+  } else {
+    elCell.classList.add('cell')
+    elCell.innerText = ''
   }
   elCell.innerText = cellContent
 }
@@ -104,19 +108,25 @@ function revealBoard(mat) {
   }
 }
 
-function makeLives(livesCount) {
-  const lives = []
-  for (let i = 0; i < livesCount; i++) {
-    lives.push('🧡')
-  }
-  return lives
+function generateLives(livesCount) {
+  gLives = livesCount
+  renderLives(livesCount)
 }
 
 function renderLives(lives) {
   elLives.innerText = ' '
-  for (let i = 0; i < lives.length; i++) {
-    elLives.innerText += lives[i]
+  for (let i = 0; i < lives; i++) {
+    elLives.innerText += '🧡'
   }
+}
+
+function generateHints(hintCount) {
+  gHints = hintCount
+  var htmlText = ''
+  for (let i = 0; i < hintCount; i++) {
+    htmlText += '<button class="available" onClick="onHint(this)">💡</button>'
+  }
+  elHints.innerHTML = htmlText
 }
 
 function getRandomInt(min, max) {

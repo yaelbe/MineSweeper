@@ -13,7 +13,6 @@ function createMines(level, board) {
     gMines.push({ i, j })
     board[i][j].isMine = true
   }
-  console.table(board)
 }
 
 function setMinesNegsCount(board) {
@@ -24,12 +23,11 @@ function setMinesNegsCount(board) {
       board[i][j].minesAround = countNeighbors(i, j, board)
     }
   }
-  console.table(board)
 }
 
 function handelMineClicked(elCell, cell) {
-  if (gLives.length > 0) {
-    gLives.pop()
+  if (gLives > 0) {
+    gLives--
     renderLives(gLives)
     elCell.innerText = '💥'
     setTimeout(() => {
