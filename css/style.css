@@ -1,0 +1,28 @@
+td {
+  border: 0.5px solid black;
+  /* border-radius: 4px; */
+  font-size: 20px;
+  background-color: aliceblue;
+}
+
+table {
+  /* border-spacing: 10px 10px; */
+  background-color: lightgrey;
+  border-radius: 6px;
+  border-spacing: 1px;
+}
+
+.board td {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  transition: 0.5s;
+  /* padding: 10px; */
+}
+
+.cell {
+  background-color: gray;
+  /* border-radius: 10px;
+  background: linear-gradient(90deg, #000 0%, lightgrey 100%);
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.6); */
+}
