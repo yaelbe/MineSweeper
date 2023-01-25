@@ -1,6 +1,7 @@
 const elSmileyBtn = document.querySelector('.btnSmiley')
 const elLives = document.querySelector('.lives')
 const elHints = document.querySelector('.hints')
+const elTime = document.querySelector('#time')
 
 function buildEmptyModel(size) {
   const board = []

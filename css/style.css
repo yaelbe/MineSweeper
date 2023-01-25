@@ -66,3 +66,8 @@ table {
   padding: 12px;
   margin: 12px;
 }
+
+.timer {
+  font-size: 22px;
+  margin: 6px;
+}

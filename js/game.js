@@ -15,6 +15,8 @@ const EXPERT = {
 
 var gHints
 var gBoard
+var gTimer
+
 var gLevel = BEGINNER
 const gGame = {
   isOn: false,
@@ -58,6 +60,7 @@ function onInit() {
   generateHints(gHint.hintsAmount)
 
   elSmileyBtn.innerText = '😃'
+  elTime.innerText = '000'
 }
 
 function buildBoard() {
@@ -69,6 +72,11 @@ function buildBoard() {
 
 function onCellClicked(elCell, i, j) {
   const currentCell = gBoard[i][j]
+  if (currentCell.isMarked) return
+
+  if (gGame.secPassed === 0) {
+    startStopper()
+  }
 
   if (gHint.isOn) {
     handelHintClicked(i, j)
@@ -106,6 +114,7 @@ function onCellMarked(elCell, i, j) {
 }
 
 function gameOver() {
+  clearInterval(gTimer)
   gGame.isOn = false
   elSmileyBtn.innerText = '🤯'
   revealBoard(gBoard)
@@ -119,6 +128,7 @@ function newGame() {
 function checkGameOver() {
   const won = gGame.markedCount + gGame.shownCount === gLevel.boardSize ** 2
   if (won) {
+    clearInterval(gTimer)
     console.log('You won🎉!')
     gGame.isOn = false
     elSmileyBtn.innerText = '😎'
@@ -175,6 +185,22 @@ function handelMegaHintClicked(posStart, posEnd) {
   gGame.isOn = false
   const neighborsPos = getAreaPosList(posStart, posEnd, gBoard, true)
   revealArea(neighborsPos, gBoard, gMegaHint, 2000)
+}
+
+function startStopper() {
+  gTimer = setInterval(() => {
+    gGame.secPassed++
+
+    const text = gGame.secPassed
+
+    if (gGame.secPassed < 10) {
+      elTime.innerText = '00' + gGame.secPassed
+    } else if (gGame.secPassed < 100) {
+      elTime.innerText = '0' + gGame.secPassed
+    } else {
+      elTime.innerText = '' + gGame.secPassed
+    }
+  }, 1000)
 }
 function mouseDown(e, elCell, i, j) {
   if (!gGame.isOn) return
