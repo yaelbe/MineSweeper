@@ -3,14 +3,17 @@
 const BEGINNER = {
   boardSize: 4,
   minesCount: 2,
+  name: 'beginner',
 }
 const MEDIUM = {
   boardSize: 8,
   minesCount: 14,
+  name: 'medium',
 }
 const EXPERT = {
   boardSize: 12,
   minesCount: 32,
+  name: 'expert',
 }
 
 var gHints
@@ -59,8 +62,12 @@ function onInit() {
   generateLives(3)
   generateHints(gHint.hintsAmount)
 
+  clearInterval(gTimer)
+
   elSmileyBtn.innerText = '😃'
   elTime.innerText = '000'
+  const score = window.localStorage.getItem(gLevel.name)
+  elScore.innerText = score ? score : 0
 }
 
 function buildBoard() {
@@ -132,6 +139,10 @@ function checkGameOver() {
     console.log('You won🎉!')
     gGame.isOn = false
     elSmileyBtn.innerText = '😎'
+    var levelBestTime = window.localStorage.getItem(gLevel.name)
+    if ((levelBestTime && gGame.secPassed < levelBestTime) || !levelBestTime) {
+      window.localStorage.setItem(gLevel.name, gGame.secPassed)
+    }
   }
 }
 
