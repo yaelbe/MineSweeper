@@ -1,13 +1,36 @@
+:root {
+  --primary1: #eaeaea;
+  --primary2: #c0d6df;
+  --primary3: #4f6d7a;
+  --primary4: #e8dab2;
+  --text-color: #dd6e42;
+}
+
+.dark {
+  --primary1: #0d0c1d;
+  --primary2: #161b33;
+  --primary3: #474973;
+  --primary4: #a69cac;
+  --text-color: #f1dac4;
+}
+
+body {
+  background: var(--primary1);
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--primary3);
+  color: var(--primary4);
+}
+
 td {
-  border: 0.5px solid black;
-  /* border-radius: 4px; */
+  border: 0.5px solid var(--primary4);
   font-size: 20px;
-  background-color: aliceblue;
+  background-color: var(--primary1);
 }
 
 table {
-  /* border-spacing: 10px 10px; */
-  background-color: lightgrey;
   border-radius: 6px;
   border-spacing: 1px;
   margin-left: auto;
@@ -19,11 +42,10 @@ table {
   height: 40px;
   text-align: center;
   transition: 0.5s;
-  /* padding: 10px; */
 }
 
 .cell {
-  background-color: gray;
+  background-color: var(--text-color);
   /* border-radius: 10px;
   background: linear-gradient(90deg, #000 0%, lightgrey 100%);
   box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.6); */
@@ -67,15 +89,14 @@ table {
   margin: 6px;
   width: 40px;
   height: 40px;
-  border: 2px solid gray;
+  border: 2px solid var(--text-color);
   border-radius: 50%;
   font-size: 22px;
-  background-color: yellow;
   grid-area: mega-hint;
 }
 
 .hints .available {
-  background-color: lightgray;
+  background-color: var(--primary2);
 }
 .board-container {
   grid-area: board;
@@ -83,7 +104,6 @@ table {
 
 .mega-hint {
   font-size: 16px;
-  background-color: deepskyblue;
   border-radius: 10px;
   padding: 12px;
   margin: 12px;
@@ -127,10 +147,17 @@ table {
   text-align: center;
 }
 
+.color-mode {
+  grid-area: mode;
+  background-color: transparent;
+  border-color: transparent;
+  font-size: 30px;
+}
+
 .game {
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid black;
+  border: 2px solid var(--primary3);
   margin: auto;
   display: grid;
   grid-template-columns: 1fr, 1fr, 1fr;
@@ -140,13 +167,13 @@ table {
   justify-content: center;
   align-content: center;
   width: fit-content;
-  background-color: lightgoldenrodyellow;
+  background-color: var(--primary2);
 
   grid-template-areas:
-    'header header header'
+    'mode header .'
     'levels levels levels'
     'score  score score'
-    'hints hints יןמאד'
+    'hints hints .'
     'smiley smiley smiley'
     'board board board'
     'mines  lives  timer'

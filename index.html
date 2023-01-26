@@ -8,8 +8,9 @@
     <title>Mine Sweeper</title>
   </head>
 
-  <body onload="onInit()">
+  <body class="root" onload="onInit()">
     <div class="game">
+      <button class="color-mode" onclick="changeColors()">⚙️</button>
       <h1 class="title">Mine Sweeper</h1>
       <div class="levels">
         <button class="beginner" onClick="setLevel(BEGINNER)">BEGINNER</button>

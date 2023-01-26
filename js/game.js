@@ -162,3 +162,8 @@ function stopTimer() {
   clearInterval(gTimer)
   gTimer = 0
 }
+
+//Colors
+function changeColors() {
+  document.body.classList.toggle('dark')
+}
