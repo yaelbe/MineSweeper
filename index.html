@@ -9,21 +9,24 @@
   </head>
 
   <body onload="onInit()">
-    <h1>Mine Sweeper</h1>
-    <div class="levels">
-      <button class="beginner" onClick="setLevel(BEGINNER)">BEGINNER</button>
-      <button class="mediun" onClick="setLevel(MEDIUM)">MEDIUM</button>
-      <button class="expert" onClick="setLevel(EXPERT)">EXPERT</button>
-    </div>
-    <div id="score">Best Score: <span id="best-score">🤷🏽‍♀️</span> Sec</div>
-    <div id="mines">Mines to reveal: <span id="mines-count"></span></div>
-    <div class="lives"></div>
-    <div class="hints"></div>
-    <div class="timer"><span id="time">000</span></div>
-    <button class="btnSmiley" onclick="onInit()">😃</button>
+    <div class="game">
+      <h1 class="title">Mine Sweeper</h1>
+      <div class="levels">
+        <button class="beginner" onClick="setLevel(BEGINNER)">BEGINNER</button>
+        <button class="mediun" onClick="setLevel(MEDIUM)">MEDIUM</button>
+        <button class="expert" onClick="setLevel(EXPERT)">EXPERT</button>
+      </div>
+      <div class="score">Best Score: <span class="best-score">🤷🏽‍♀️</span> Sec</div>
+      <div class="timer"><span class="time">000</span></div>
+      <div class="mines">Mines to reveal: <span class="mines-count"></span></div>
+      <div class="lives"></div>
+      <div class="hints"></div>
 
-    <div class="board-container" style="margin: auto"></div>
-    <button class="mega-hint" onClick="onMegaHint()">Mega Hint</button>
+      <button class="btnSmiley" onclick="onInit()">😃</button>
+
+      <div class="board-container"></div>
+      <button class="mega-hint" onClick="onMegaHint(this)">Mega Hint</button>
+    </div>
     <script src="js/const.js"></script>
     <script src="js/board.js"></script>
     <script src="js/game.js"></script>

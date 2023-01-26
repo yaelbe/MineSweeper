@@ -3,9 +3,9 @@
 const elSmileyBtn = document.querySelector('.btnSmiley')
 const elLives = document.querySelector('.lives')
 const elHints = document.querySelector('.hints')
-const elTime = document.querySelector('#time')
-const elScore = document.querySelector('#best-score')
-const elMinesCount = document.querySelector('#mines-count')
+const elTime = document.querySelector('.time')
+const elScore = document.querySelector('.best-score')
+const elMinesCount = document.querySelector('.mines-count')
 
 const BEGINNER = {
   boardSize: 4,

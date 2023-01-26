@@ -115,10 +115,11 @@ function onHint(elHint) {
   }
 }
 
-function onMegaHint() {
+function onMegaHint(elBtn) {
   if (gMegaHint.isEnable && !gHint.isOn) {
     gMegaHint.isOn = true
     gMegaHint.isEnable = false
+    elBtn.classList.add('disabled')
   }
 }
 
