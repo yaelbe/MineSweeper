@@ -87,8 +87,13 @@ function renderCell(pos, cell, cellView) {
   var cellContent = ''
 
   if (cell.isMarked) {
-    cellContent = '🚩'
-    elCell.classList.add('cell')
+    if (cell.isShown) {
+      cellContent = '💣'
+      elCell.classList.remove('cell')
+    } else {
+      cellContent = '🚩'
+      elCell.classList.add('cell')
+    }
   } else if (cell.isShown) {
     elCell.classList.remove('cell')
     cellContent = cell.minesAround > 0 ? cell.minesAround : cell.isMine ? '💥' : ''
@@ -125,12 +130,13 @@ function revealBoard(mat) {
       const cell = mat[i][j]
 
       if (cell.isMine) {
-        if (cell.isShown) {
+        if (cell.isShown && !cell.isMarked) {
           elCell.innerText = '💣'
           elCell.style.backgroundColor = 'red'
           elCell.classList.remove('cell')
         } else if (cell.isMarked) {
           elCell.innerText = '🚩'
+          elCell.classList.add('cell')
         } else {
           elCell.classList.remove('cell')
           elCell.innerText = '💣'

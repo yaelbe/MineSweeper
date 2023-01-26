@@ -30,18 +30,22 @@ table {
 }
 
 .btnSmiley {
-  width: 40px;
-  height: 40px;
-  font-size: 22px;
+  width: 80px;
+  height: 80px;
+  font-size: 40px;
   margin: 20px;
   grid-area: smiley;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+  border-radius: 50%;
 }
 
 .lives {
   font-size: 22px;
   grid-area: lives;
+  margin: 6px;
+  text-align: center;
 }
 .levels {
   text-align: center;
@@ -86,8 +90,9 @@ table {
   grid-area: mega-hint;
 }
 
-button:disabled {
+.disabled {
   pointer-events: none;
+  cursor: not-allowed;
   opacity: 0.65;
 }
 
@@ -99,6 +104,7 @@ button:disabled {
 }
 .time {
   display: inline-block;
+  padding: 6px;
 }
 
 .score {
@@ -107,9 +113,15 @@ button:disabled {
 }
 
 .mines {
+  font-size: 22px;
+  margin: 6px;
   grid-area: mines;
+  text-align: center;
 }
-
+.mines-count {
+  display: inline-block;
+  padding: 6px;
+}
 .title {
   grid-area: header;
   text-align: center;
@@ -133,10 +145,10 @@ button:disabled {
   grid-template-areas:
     'header header header'
     'levels levels levels'
-    'score  . mines'
-    'lives hints hints'
+    'score  score score'
+    'hints hints יןמאד'
     'smiley smiley smiley'
     'board board board'
-    'timer  timer timer'
+    'mines  lives  timer'
     'mega-hint mega-hint mega-hint';
 }

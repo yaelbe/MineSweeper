@@ -22,8 +22,10 @@ function handelMineClicked(elCell, cell) {
     elCell.innerText = '💥'
     setTimeout(() => {
       cell.isMarked = true
+      cell.isShown = true
       onMineClicked(cell)
-      elCell.innerText = '🚩'
+      elCell.innerText = '💣'
+      elCell.classList.remove('cell')
     }, 500)
   } else {
     cell.isShown = true
@@ -40,6 +42,9 @@ function renderLives(lives) {
   elLives.innerText = ' '
   for (let i = 0; i < lives; i++) {
     elLives.innerText += '🧡'
+  }
+  for (let i = 0; i < 3 - lives; i++) {
+    elLives.innerText += '💔'
   }
 }
 

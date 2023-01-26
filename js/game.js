@@ -23,6 +23,7 @@ function onInit() {
   elSmileyBtn.innerText = '😃'
   elTime.innerText = '000'
   elMinesCount.innerText = gMinesCountdown
+  document.querySelector('.mega-hint').disabled = false
 }
 
 function buildBoard() {
@@ -119,7 +120,7 @@ function onMegaHint(elBtn) {
   if (gMegaHint.isEnable && !gHint.isOn) {
     gMegaHint.isOn = true
     gMegaHint.isEnable = false
-    elBtn.classList.add('disabled')
+    elBtn.disabled = true
   }
 }
 
