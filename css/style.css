@@ -10,6 +10,8 @@ table {
   background-color: lightgrey;
   border-radius: 6px;
   border-spacing: 1px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .board td {
@@ -32,16 +34,29 @@ table {
   height: 40px;
   font-size: 22px;
   margin: 20px;
+  grid-area: smiley;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lives {
   font-size: 22px;
+  grid-area: lives;
+}
+.levels {
+  text-align: center;
+  grid-area: levels;
 }
 
 .levels button {
   margin: 6px;
   padding: 6px;
   border-radius: 6px;
+  width: 100px;
+}
+
+.hints {
+  grid-area: hints;
 }
 
 .hints button {
@@ -52,26 +67,76 @@ table {
   border-radius: 50%;
   font-size: 22px;
   background-color: yellow;
+  grid-area: mega-hint;
 }
 
 .hints .available {
   background-color: lightgray;
+}
+.board-container {
+  grid-area: board;
 }
 
 .mega-hint {
   font-size: 16px;
   background-color: deepskyblue;
   border-radius: 10px;
-  width: 150px;
   padding: 12px;
   margin: 12px;
+  grid-area: mega-hint;
+}
+
+button:disabled {
+  pointer-events: none;
+  opacity: 0.65;
 }
 
 .timer {
   font-size: 22px;
   margin: 6px;
+  grid-area: timer;
+  text-align: center;
+}
+.time {
+  display: inline-block;
 }
 
-#score {
+.score {
   font-size: 22px;
+  grid-area: score;
+}
+
+.mines {
+  grid-area: mines;
+}
+
+.title {
+  grid-area: header;
+  text-align: center;
+}
+
+.game {
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr, 1fr, 1fr;
+  grid-template-rows: auto;
+  column-gap: 6px;
+  row-gap: 6px;
+  justify-content: center;
+  align-content: center;
+  width: fit-content;
+  background-color: lightgoldenrodyellow;
+
+  grid-template-areas:
+    'header header header'
+    'levels levels levels'
+    'score  . mines'
+    'lives hints hints'
+    'smiley smiley smiley'
+    'board board board'
+    'timer  timer timer'
+    'mega-hint mega-hint mega-hint';
 }
