@@ -16,16 +16,17 @@
       <button class="expert" onClick="setLevel(EXPERT)">EXPERT</button>
     </div>
     <div id="score">Best Score: <span id="best-score">🤷🏽‍♀️</span> Sec</div>
-
+    <div id="mines">Mines to reveal: <span id="mines-count"></span></div>
     <div class="lives"></div>
     <div class="hints"></div>
     <div class="timer"><span id="time">000</span></div>
-    <button class="btnSmiley" onclick="newGame()">😃</button>
+    <button class="btnSmiley" onclick="onInit()">😃</button>
 
     <div class="board-container" style="margin: auto"></div>
     <button class="mega-hint" onClick="onMegaHint()">Mega Hint</button>
-    <script src="js/utils.js"></script>
-    <script src="js/mine.js"></script>
+    <script src="js/const.js"></script>
+    <script src="js/board.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/gameFeature.js"></script>
   </body>
 </html>

@@ -1,20 +1,24 @@
-const elSmileyBtn = document.querySelector('.btnSmiley')
-const elLives = document.querySelector('.lives')
-const elHints = document.querySelector('.hints')
-const elTime = document.querySelector('#time')
-const elScore = document.querySelector('#best-score')
+'use strict'
 
 function buildEmptyModel(size) {
   const board = []
-
   for (var i = 0; i < size; i++) {
     board.push([])
-
     for (var j = 0; j < size; j++) {
       board[i][j] = { isMine: false, isMarked: false, minesAround: 0, isShown: false }
     }
   }
   return board
+}
+
+function setMinesNegsCount(board) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      var currentCell = board[i][j]
+      if (currentCell.isMine === MINE) continue
+      board[i][j].minesAround = countNeighbors(i, j, board)
+    }
+  }
 }
 
 function countNeighbors(rowIdx, colIdx, mat) {
@@ -38,7 +42,6 @@ function getNeighborsPosList(rowIdx, colIdx, mat, includeMines = false) {
     if (i < 0 || i >= mat.length) continue
 
     for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-      if (i === rowIdx && j === colIdx) continue
       if (j < 0 || j >= mat[i].length) continue
       if (!includeMines && mat[i][j].isMine) continue
       neighborsPos.push({ i, j })
@@ -68,7 +71,7 @@ function renderBoard(mat, selector) {
     for (var j = 0; j < mat[0].length; j++) {
       const cell = mat[i][j]
       const className = `cell cell-${i}-${j}`
-      strHTML += `<td class="${className}" onmousedown="mouseDown(event, this, ${i}, ${j})" oncontextmenu="return false;"></td>\n`
+      strHTML += `<td class="${className}" onClick="onCellClicked(this, ${i}, ${j})" oncontextmenu="onCellMarked(event,${i},${j})"></td>\n`
     }
     strHTML += '</tr>'
   }
@@ -76,6 +79,7 @@ function renderBoard(mat, selector) {
 
   const elContainer = document.querySelector(selector)
   elContainer.innerHTML = strHTML
+  document.querySelector('.board').style.cursor = 'pointer'
 }
 
 function renderCell(pos, cell, cellView) {
@@ -84,6 +88,7 @@ function renderCell(pos, cell, cellView) {
 
   if (cell.isMarked) {
     cellContent = '🚩'
+    elCell.classList.add('cell')
   } else if (cell.isShown) {
     elCell.classList.remove('cell')
     cellContent = cell.minesAround > 0 ? cell.minesAround : cell.isMine ? '💥' : ''
@@ -143,25 +148,23 @@ function revealBoard(mat) {
   }
 }
 
-function generateLives(livesCount) {
-  gLives = livesCount
-  renderLives(livesCount)
-}
+function expandShown(i, j, mat) {
+  const currentCell = mat[i][j]
 
-function renderLives(lives) {
-  elLives.innerText = ' '
-  for (let i = 0; i < lives; i++) {
-    elLives.innerText += '🧡'
-  }
-}
+  if (currentCell.isMine || currentCell.isShown) return
 
-function generateHints(hintCount) {
-  gHints = hintCount
-  var htmlText = ''
-  for (let i = 0; i < hintCount; i++) {
-    htmlText += '<button class="available" onClick="onHint(this)">💡</button>'
+  currentCell.isShown = true
+  gGame.shownCount++
+
+  renderCell({ i, j }, currentCell)
+
+  if (currentCell.minesAround === 0) {
+    const neighborsPos = getNeighborsPosList(i, j, mat)
+    for (let i = 0; i < neighborsPos.length; i++) {
+      const currenPos = neighborsPos[i]
+      expandShown(currenPos.i, currenPos.j, mat)
+    }
   }
-  elHints.innerHTML = htmlText
 }
 
 function getRandomInt(min, max) {

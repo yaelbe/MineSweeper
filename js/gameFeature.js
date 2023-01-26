@@ -15,26 +15,39 @@ function createMines(level, board) {
   }
 }
 
-function setMinesNegsCount(board) {
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      var currentCell = board[i][j]
-      if (currentCell.isMine === MINE) continue
-      board[i][j].minesAround = countNeighbors(i, j, board)
-    }
-  }
-}
-
 function handelMineClicked(elCell, cell) {
   if (gLives > 0) {
     gLives--
     renderLives(gLives)
     elCell.innerText = '💥'
     setTimeout(() => {
-      elCell.innerText = ''
+      cell.isMarked = true
+      setMinesCount(1)
+      elCell.innerText = '🚩'
     }, 500)
   } else {
     cell.isShown = true
     gameOver()
   }
+}
+
+function generateLives(livesCount) {
+  gLives = livesCount
+  renderLives(livesCount)
+}
+
+function renderLives(lives) {
+  elLives.innerText = ' '
+  for (let i = 0; i < lives; i++) {
+    elLives.innerText += '🧡'
+  }
+}
+
+function generateHints(hintCount) {
+  gHints = hintCount
+  var htmlText = ''
+  for (let i = 0; i < hintCount; i++) {
+    htmlText += '<button class="available" onClick="onHint(this)">💡</button>'
+  }
+  elHints.innerHTML = htmlText
 }
