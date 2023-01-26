@@ -5,6 +5,7 @@ var gBoard
 var gTimer
 
 var gLevel = BEGINNER
+var gMinesCountdown = 0
 
 function onInit() {
   resetCounters()
@@ -21,7 +22,7 @@ function onInit() {
   //DOM
   elSmileyBtn.innerText = '😃'
   elTime.innerText = '000'
-  elMinesCount.innerText = gLevel.minesCount
+  elMinesCount.innerText = gMinesCountdown
 }
 
 function buildBoard() {
@@ -85,17 +86,17 @@ function onCellMarked(e, i, j) {
 
   const currentCell = gBoard[i][j]
   currentCell.isMarked = !currentCell.isMarked
-
-  if (currentCell.isMarked && currentCell.isMine) setMinesCount(1)
+  onMineClicked(currentCell)
 
   renderCell({ i, j }, currentCell)
 
   checkGameOver()
 }
 
-function setMinesCount(diff) {
-  gGame.markedCount += diff
-  elMinesCount.innerText = gLevel.markedCount
+function onMineClicked(cell) {
+  if (cell.isMarked && cell.isMine) gGame.markedCount++
+  cell.isMarked ? gMinesCountdown-- : gMinesCountdown++
+  elMinesCount.innerText = gMinesCountdown
 }
 
 //Level

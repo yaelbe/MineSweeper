@@ -22,7 +22,7 @@ function handelMineClicked(elCell, cell) {
     elCell.innerText = '💥'
     setTimeout(() => {
       cell.isMarked = true
-      setMinesCount(1)
+      onMineClicked(cell)
       elCell.innerText = '🚩'
     }, 500)
   } else {

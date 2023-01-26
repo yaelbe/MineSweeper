@@ -56,4 +56,6 @@ function resetCounters() {
   gMegaHint.isOn = false
   gMegaHint.posStart = null
   gMegaHint.posEnd = null
+
+  gMinesCountdown = gLevel.minesCount
 }
